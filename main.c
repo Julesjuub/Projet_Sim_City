@@ -1,4 +1,4 @@
-#include "Biblio.h"
+#include "maBiblio.h"
 
 int main()
 {
@@ -6,13 +6,10 @@ int main()
     srand(time(NULL));
 
     initialisationAllegro();
-    printf(" \n Initialisation okk ");
+
 
     t_jeu *Jeu = (t_jeu*)malloc(sizeof(t_jeu));
     initialisation_struct_Jeu(Jeu);
-
-
-    printf("\n pre creation matrice \n");
 
     int case_tot = MAPTX * MAPTY; /// Nombre de cases en France
 
@@ -20,18 +17,21 @@ int main()
 
     printf("\n On entre la boucle de Jeu \n");
     tDebut = clock ();
+    Jeu->debut = tDebut;
     sauvegardePartie(Jeu);
 
     while (!key[KEY_ESC])
     {
         clear_bitmap(Jeu->buffer);
 
+
+
         quadrillage_MAP(Jeu);
         affichage_icones(Jeu);
 
-        recherche_Niveau0(Jeu);
+        ///recherche_Niveau0(Jeu);
 
-        cycle_temps_sauvegarde(Jeu, tDebut);
+        cycle_temps_sauvegarde(Jeu);
 
         //printf("\n affichage icone ok");
         selection_icone(Jeu);
