@@ -20,7 +20,8 @@ void initialisationAllegro()
     }
 }
 
-t_case** Creation_Matrice ()
+
+t_case** Creation_Matrice()
 {
     t_case** MAP = (t_case**)calloc(MAPTX, sizeof(t_case*));
 
@@ -35,18 +36,95 @@ t_case** Creation_Matrice ()
         {
             MAP[y][x].coord_x = 0;
             MAP[y][x].coord_y = 0;
+
+            /// Initialisation et allocation NIVEAU 0
             MAP[y][x].ptniv0 = (t_niv0*)malloc(sizeof(t_niv0));
-            MAP[y][x].ptniv0->pt_bat = (t_batiment*)malloc(sizeof(t_batiment));
-            MAP[y][x].ptniv0->pt_habitat = (t_habitation*)malloc(sizeof(t_habitation));
             MAP[y][x].ptniv0->type = 0;
-            MAP[y][x].ptniv0->pt_habitat->type = 0;
+            MAP[y][x].ptniv0->route_mini = (t_sprite_mini*)malloc(sizeof (t_sprite_mini));
+            MAP[y][x].ptniv0->route_mini->coord_x = 0;
+            MAP[y][x].ptniv0->route_mini->coord_y = 0;
+
+            /// Initialisation et allocation Structure habitation
+            MAP[y][x].ptniv0->pt_habitat = (t_habitation*)malloc(sizeof(t_habitation));
+            MAP[y][x].ptniv0->pt_habitat->sol_vague = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_habitat->sol_vague->coord_x = 0;
+            MAP[y][x].ptniv0->pt_habitat->sol_vague->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_habitat->cabane = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_habitat->cabane->coord_x = 0;
+            MAP[y][x].ptniv0->pt_habitat->cabane->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_habitat->maison = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_habitat->maison->coord_x = 0;
+            MAP[y][x].ptniv0->pt_habitat->maison->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_habitat->immeuble = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_habitat->immeuble->coord_x = 0;
+            MAP[y][x].ptniv0->pt_habitat->immeuble->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_habitat->gratte_ciel = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_habitat->gratte_ciel->coord_x = 0;
+            MAP[y][x].ptniv0->pt_habitat->gratte_ciel->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_habitat->capa_cabane = 0;
+            MAP[y][x].ptniv0->pt_habitat->capa_maison = 0;
+            MAP[y][x].ptniv0->pt_habitat->capa_immeuble = 0;
+            MAP[y][x].ptniv0->pt_habitat->capa_gratte_ciel = 0;
+
+
+            /// Initialisation et allocation Struct Bâtiment
+            MAP[y][x].ptniv0->pt_bat = (t_batiment*)malloc(sizeof(t_batiment));
+            MAP[y][x].ptniv0->pt_bat->capa_tot = 0;
+            MAP[y][x].ptniv0->pt_bat->flot = 0;
+            MAP[y][x].ptniv0->pt_bat->marque = 0;
+
+            MAP[y][x].ptniv0->pt_bat->chato = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_bat->chato->coord_x = 0;
+            MAP[y][x].ptniv0->pt_bat->chato->coord_y = 0;
+
+            MAP[y][x].ptniv0->pt_bat->centrale = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv0->pt_bat->centrale->coord_x = 0;
+            MAP[y][x].ptniv0->pt_bat->centrale->coord_y = 0;
+
+
+
+            /// Initialisation et allocation NIVEAU -1
             MAP[y][x].ptniv1 = (t_niv1*)malloc(sizeof(t_niv1));
+            MAP[y][x].ptniv1->flot = 0;
+            MAP[y][x].ptniv1->canalisation_mini = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+
+            /// Initialisation et allocation Batiment d'origine
+            MAP[y][x].ptniv1->origine = (t_batiment*)malloc(sizeof(t_batiment));
+            MAP[y][x].ptniv1->origine->chato = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv1->origine->chato->coord_x = 0;
+            MAP[y][x].ptniv1->origine->chato->coord_y = 0;
+
+            MAP[y][x].ptniv1->origine->capa_tot = 0;
+            MAP[y][x].ptniv1->origine->flot = 0;
+            MAP[y][x].ptniv1->origine->marque = 0;
+
+
+            /// Initialisation et allocation NIVEAU -2
             MAP[y][x].ptniv2 = (t_niv2*)malloc(sizeof(t_niv2));
-            //MAP[y][x].ptniv0->type = 0;
+            MAP[y][x].ptniv2->flot = 0;
+            MAP[y][x].ptniv2->elec_mini = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+
+            /// Initialisation et allocation Batiment d'origine
+            MAP[y][x].ptniv2->origine = (t_batiment*)malloc(sizeof(t_batiment));
+            MAP[y][x].ptniv2->origine->centrale = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+            MAP[y][x].ptniv2->origine->centrale->coord_x = 0;
+            MAP[y][x].ptniv2->origine->centrale->coord_y = 0;
+
+            MAP[y][x].ptniv2->origine->capa_tot = 0;
+            MAP[y][x].ptniv2->origine->flot = 0;
+            MAP[y][x].ptniv2->origine->marque = 0;
+
+
 
             printf("\n Valeur des coordonees MAP[%d][%d] : x -> %d  y -> %d ", y, x, MAP[y][x].coord_x, MAP[y][x].coord_y);
         }
     }
+
 
     for(int y = 0; y < MAPTY; y++) /// jusqu'a 35
     {
@@ -87,23 +165,10 @@ void quadrillage_MAP(t_jeu *Jeu)
     {
         for(int x = 0; x < MAPTX; x++)  /// jusqu'a 51
         {
-            blit(Jeu->sol, Jeu->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
-        }
-    }
-    for(int x = 0; x < MAPTX; x++) /// jusqu'a 38
-    {
-        for(int y = 0; y < MAPTY; y++)  /// jusqu'a 51
-        {
-            blit(Jeu->sol, Jeu->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
-        }
-    }
-
-
-    for(int y = 0; y < MAPTY; y++) /// jusqu'a 38
-    {
-        for(int x = 0; x < MAPTX; x++)  /// jusqu'a 51
-        {
-            rect(Jeu->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x + TX, Jeu->MAP[y][x].coord_y + TY, makecol(255, 255, 255));
+            if(Jeu->MAP[y][x].ptniv0->type == 0 || Jeu->MAP[y][x].ptniv0->type == Chatodo2 || Jeu->MAP[y][x].ptniv0->type == Centrale2 || Jeu->MAP[y][x].ptniv0->type == Habitation2)
+            {
+                 rect(Jeu->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x + TX, Jeu->MAP[y][x].coord_y + TY, makecol(0, 0, 0));
+            }
         }
     }
 }
@@ -174,6 +239,8 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
 
 
 
+
+
     Jeu->ptniv0 = (t_niv0*)malloc(sizeof(t_niv0));
 
     Jeu->ptniv0->route_mini = (t_sprite_mini*)malloc(sizeof (t_sprite_mini));
@@ -181,6 +248,8 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->ptniv0->pt_bat = (t_batiment*)malloc(sizeof(t_batiment));
     Jeu->ptniv0->pt_bat->chato = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
     Jeu->ptniv0->pt_bat->centrale = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
+    Jeu->ptniv0->pt_bat->chato->icone_mini = load_bitmap("Bitmap/mini/chatodo_mini.bmp", NULL);
+    Jeu->ptniv0->pt_bat->centrale->icone_mini = load_bitmap("Bitmap/mini/centrale_elec_mini.bmp", NULL);
 
     Jeu->ptniv0->pt_habitat = (t_habitation*)malloc(sizeof(t_habitation));
     Jeu->ptniv0->pt_habitat->type = 0;
@@ -212,37 +281,35 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
 
     Jeu->pt_icone->icone_sol_vague->icone = load_bitmap("Bitmap/icones/terrain_vague_unite_icone.bmp", NULL);
     Jeu->pt_icone->icone_route->icone =  load_bitmap("Bitmap/icones/route_icone.bmp", NULL);
-    //Jeu->pt_icone->icone_canalisation->icone = load_bitmap("Bitmap/icones/water_pipe_icone.bmp", NULL);
-    //Jeu->pt_icone->icone_elec->icone = load_bitmap("Bitmap/icones/electric_cable_icone.bmp", NULL);
     Jeu->pt_icone->icone_chatodo->icone = load_bitmap("Bitmap/icones/chatodo_icone.bmp", NULL);
     Jeu->pt_icone->icone_centrale->icone = load_bitmap("Bitmap/icones/centrale_elec_icone.bmp", NULL);
 
 
-
-    if(Jeu->ptniv0->pt_habitat->sol_vague == NULL || Jeu->pt_icone->icone_sol_vague == NULL || Jeu->sol == NULL)
-    {
-        allegro_message("Pas reussi a charger sol_vague ");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-    if(Jeu->ptniv0->pt_habitat->cabane == NULL )
+    if(Jeu->pt_icone->icone_sol_vague->icone == NULL )
     {
         allegro_message("Pas reussi a charger cabane ");
         allegro_exit();
         exit(EXIT_FAILURE);
     }
-    if(Jeu->pt_icone->icone_route== NULL )
+    if(Jeu->pt_icone->icone_route->icone == NULL )
     {
-        allegro_message("Pas reussi a charger maison ");
+        allegro_message("Pas reussi a charger route ");
         allegro_exit();
         exit(EXIT_FAILURE);
     }
-    if(Jeu->ptniv0->pt_habitat->immeuble == NULL )
+    if(Jeu->pt_icone->icone_chatodo->icone == NULL )
     {
-        allegro_message("Pas reussi a charger immeuble ");
+        allegro_message("Pas reussi a charger chato ");
         allegro_exit();
         exit(EXIT_FAILURE);
     }
+    if(Jeu->pt_icone->icone_centrale->icone == NULL )
+    {
+        allegro_message("Pas reussi a charger centrale ");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+
 
     Jeu->nbSecondes = 0;
     Jeu->nbHabitantsTotal = 0;
@@ -255,6 +322,7 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
 
 void selection_icone(t_jeu *Jeu) /// En fonction de la où on clique, le sous prog de placement d'icônes se lance avec l'icone selectionné
 {
+    recherche_Niveau0(Jeu);
     if((mouse_b&1) && ((mouse_x >= Jeu->pt_icone->icone_sol_vague->coord_x) && (mouse_x <= Jeu->pt_icone->icone_sol_vague->end_x )) && ((mouse_y >= Jeu->pt_icone->icone_sol_vague->coord_y) && (mouse_y <= Jeu->pt_icone->icone_sol_vague->end_y)))
     {
         textprintf_ex(Jeu->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'sol vague' ");
@@ -369,11 +437,13 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                                 {
                                     if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
                                     {
-                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = sprite->type;
+                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Habitation2;
+                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->pt_habitat->type = 1;
                                     }
                                 }
                             }
                         }
+                        Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
 
                         Jeu->pt_icone->selection = 0;
                         valeur = 1;
@@ -419,11 +489,19 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                                 {
                                     if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
                                     {
-                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = sprite->type;
+                                        if(sprite->type == Chatodo)
+                                        {
+                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Chatodo2;
+                                        }
+                                        else if(sprite->type == Centrale)
+                                        {
+                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Centrale2;
+                                        }
                                     }
                                 }
                             }
                         }
+                        Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
 
                         Jeu->pt_icone->selection = 0;
                         valeur = 1;
@@ -434,35 +512,49 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                     rect(Jeu->buffer, x, y, x + TX*4, y + TY*6, makecol(250, 0, 0) );
                     blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 }
-
             }
-
-
             clear_bitmap(Jeu->buffer);
             quadrillage_MAP(Jeu);
             cycle_temps_sauvegarde(Jeu);
             affichage_icones(Jeu);
-
+            recherche_Niveau0(Jeu);
         }
     }
-
 }
 
 
 
 void recherche_Niveau0(t_jeu *Jeu)
 {
-    for(int x = 0; x < MAPTX; x++) /// jusqu'a 35
-    {
-        for(int y = 0; y < MAPTY; y++)  /// jusqu'a 45
-        {
-            if(Jeu->MAP[y][x].ptniv0->type == Route)
-            {
-                draw_sprite(Jeu->buffer, Jeu->ptniv0->route,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
-            }
+    int x, y;
 
+    for(y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
+            if(Jeu->MAP[y][x].ptniv0->type == 0)
+            {
+                draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+            }
+            else if(Jeu->MAP[y][x].ptniv0->type == Route)
+            {
+                draw_sprite(Jeu->buffer, Jeu->ptniv0->route_mini->icone_mini, x*TX, y*TY);
+            }
+            else if(Jeu->MAP[y][x].ptniv0->type == Centrale2 || Jeu->MAP[y][x].ptniv0->type == Chatodo2 || Jeu->MAP[y][x].ptniv0->type == Habitation2)
+            {
+                draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+            }
+        }
+    }
+    quadrillage_MAP(Jeu);
+
+    for(y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
             if(Jeu->MAP[y][x].ptniv0->type == Construction_habitation)
             {
+                draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 1)
                 {
                     draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->sol_vague->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
@@ -489,18 +581,15 @@ void recherche_Niveau0(t_jeu *Jeu)
                 }
             }
 
-            if(Jeu->MAP[y][x].ptniv0->type == Chatodo)
-            {
-                draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->chato->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
-            }
-            if(Jeu->MAP[y][x].ptniv0->type == Centrale)
-            {
-                draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->centrale->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
-            }
-
-            if(Jeu->MAP[y][x].ptniv0->type == Rien)
+            else if(Jeu->MAP[y][x].ptniv0->type == Chatodo)
             {
                 draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->chato->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+            }
+            else if(Jeu->MAP[y][x].ptniv0->type == Centrale)
+            {
+                draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->centrale->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
             }
         }
     }
@@ -641,3 +730,4 @@ void lireGraphe(t_jeu *Jeu)
         fclose(fichier);
     }
 }
+
