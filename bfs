@@ -1,0 +1,287 @@
+#include "maBiblio.h"
+
+int  chercheCapa(t_jeu *Jeu, int coordY, int coordX)
+{
+    int capa;
+    if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 1)
+    {
+        capa = 0;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 2)
+    {
+        capa = 10;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 3)
+    {
+        capa = 50;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 4)
+    {
+        capa = 100;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 5)
+    {
+        capa = 1000;
+    }
+    return capa;
+
+}
+
+void bfs(t_jeu *Jeu, int s0, int adj[MAXI][MAXI], int type, int coordY, int coordX)
+{
+    int dejaVu[MAXI], queue[MAXI], debut = -1, fin = -1, i;
+    int x, y, capaci;
+    for ( i = 0 ; i < MAXI ; i++)
+    {
+        dejaVu[i] = 0;
+    }
+
+    debut++;
+    queue[++fin] = s0;
+    dejaVu[s0] = 1;
+
+    while(debut <= fin)
+    {
+        s0 = queue[debut++];
+
+        for ( i = 0 ; i < MAXI ; i++)
+        {
+            if (adj[s0][i] == 1 && dejaVu[i] != 1)
+            {
+                x = i%45;
+                y = i - x;
+                y = y/45;
+
+                ///augmentationEauElec(     );
+
+                /*if(Jeu->MAP[y+1][x].ptniv0->type == Construction_habitation || Jeu->MAP[y+1][x].ptniv0->type == Habitation2)
+                {
+                    if(Jeu->MAP[y+1][x].ptniv0->type == Construction_habitation)
+                    {
+                        capaci = chercheCapa(Jeu, y+1, x);
+                        if(Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci < 5000 && Jeu->MAP[y+1][x].ptniv0->pt_habitat->flotEau < capaci)
+                        {
+                            if(type == Chatodo)
+                            {
+                                Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
+                                Jeu->MAP[y+1][x].ptniv0->pt_habitat->flotEau = capaci;
+                                Jeu->MAP[y+1][x].ptniv0->pt_habitat->origineEau = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
+                            }
+                            else if(type == Centrale)
+                            {
+                                Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
+                                Jeu->MAP[y+1][x].ptniv0->pt_habitat->flotEau = capaci;
+                                Jeu->MAP[y+1][x].ptniv0->pt_habitat->origineEau = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
+                            }
+                        }
+                        else if(type == Chatodo)
+                    }
+                    else if(Jeu->MAP[y+1][x-1].ptniv0->type == Construction_habitation)
+                    {
+                        capaci = chercheCapa(Jeu, y+1, x-1);
+                        if(Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci < 5000)
+                        {
+                            if(type == Chatodo)
+                            {
+                                Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
+                                Jeu->MAP[y+1][x-1].ptniv0->pt_habitat->flotEau = capaci;
+                                Jeu->MAP[y+1][x-1].ptniv0->pt_habitat->origineEau = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
+                            }
+                            else if(type == Centrale)
+                            {
+                                Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
+                                Jeu->MAP[y+1][x-1].ptniv0->pt_habitat->flotEau = capaci;
+                                Jeu->MAP[y+1][x-1].ptniv0->pt_habitat->origineEau = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
+                            }
+                        }
+
+                    }
+                    else if(Jeu->MAP[y+1][x-2].ptniv0->type == Construction_habitation)
+                    {
+
+                    }
+
+
+
+
+
+                    adj[y*x][(y+1)*x] = 1;
+                }
+                if(Jeu->MAP[y-1][x].ptniv0->type == Construction_habitation || Jeu->MAP[y+1][x].ptniv0->type == Habitation2)
+                {
+
+
+                    adj[y*x][(y-1)*x] = 1;
+                }
+                if(Jeu->MAP[y][x+1].ptniv0->type == Construction_habitation || Jeu->MAP[y+1][x].ptniv0->type == Habitation2)
+                {
+
+
+                    adj[y*x][(x+1)*y] = 1;
+                }
+                if(Jeu->MAP[y][x-1].ptniv0->type == Construction_habitation || Jeu->MAP[y+1][x].ptniv0->type == Habitation2)
+                {
+
+
+                    adj[y*x][(x-1)*y] = 1;
+                }*/
+
+
+                queue[++fin] = i;
+                dejaVu[i] = 1;
+            }
+        }
+    }
+}
+
+
+void appelBFS(t_jeu *Jeu)
+{
+    int matrice[MAXI][MAXI];
+    int x, y, i, j, y2;
+
+    for(i = 0; i < MAXI; i++)
+    {
+        for(j=0; j < MAXI; j++)
+        {
+            matrice[i][j] = 0;
+        }
+    }
+
+    for(y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
+            if(Jeu->MAP[y][x].ptniv0->type == Route)
+            {
+                if(y > 0 && x > 0)
+                {
+                    y2 = 45*y;
+                    if(Jeu->MAP[y+1][x].ptniv0->type == Route)
+                    {
+                        matrice[y2+x][(y2+45)+x] = 1;
+                    }
+                    if(Jeu->MAP[y-1][x].ptniv0->type == Route)
+                    {
+                        matrice[y2+x][(y2-45)+x] = 1;
+                    }
+                    if(Jeu->MAP[y][x+1].ptniv0->type == Route)
+                    {
+                        matrice[y2+x][(x+1)+y2] = 1;
+                    }
+                    if(Jeu->MAP[y][x-1].ptniv0->type == Route)
+                    {
+                        matrice[y2+x][(x-1)+y2] = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    for(y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
+            if(Jeu->MAP[y][x].ptniv0->type == Construction_habitation)
+            {
+                Jeu->MAP[y][x].ptniv0->pt_habitat->origineEau = 0;
+                Jeu->MAP[y][x].ptniv0->pt_habitat->origineElec = 0;
+                Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau = 0;
+                Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec = 0;
+            }
+            if(Jeu->MAP[y][x].ptniv0->type == Chatodo || Jeu->MAP[y][x].ptniv0->type == Centrale)
+            {
+                Jeu->MAP[y][x].ptniv0->pt_bat->flot = 0;
+                y2 = 45*y;
+                //*//////////////////////////////////////////////////////////////////////////////////////////////////////////*//
+                if(y > 0 && x > 0)
+                {
+                    if(Jeu->MAP[y-1][x].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2-45)+x, matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y-1][x+1].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2-45)+(x+1), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y-1][x+2].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2-45)+(x+2), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y-1][x+3].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2-45)+(x+3), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    //*//////////////////////////////////////////////////////////////////////////////////////////////////////////*//
+                    else if(Jeu->MAP[y+6][x].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2+6*45)+x, matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y+6][x+1].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2+6*45)+(x+1), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y2+6][x+2].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2+6*45)+(x+2), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[y+6][x+3].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (y2+6*45)+(x+3), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    //*//////////////////////////////////////////////////////////////////////////////////////////////////////////*//
+                    else if(Jeu->MAP[x-1][y].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+y2, matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x-1][y+1].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+(y2+1*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x-1][y+2].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+(y2+2*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x-1][y+3].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+(y2+3*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x-1][y+4].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+(y2+4*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x-1][y+5].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x-1)+(y2+5*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    //*//////////////////////////////////////////////////////////////////////////////////////////////////////////*//
+                    else if(Jeu->MAP[x+4][y].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+y2, matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x+4][y+1].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+(y2+1*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x+4][y+2].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+(y2+2*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x+4][y+3].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+(y2+3*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x+4][y+4].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+(y2+4*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                    else if(Jeu->MAP[x+4][y+5].ptniv0->type == Route)
+                    {
+                        bfs(Jeu, (x+4)+(y2+5*45), matrice, Jeu->MAP[y][x].ptniv0->type, y, x);
+                    }
+                }
+            }
+        }
+    }
+}
+
