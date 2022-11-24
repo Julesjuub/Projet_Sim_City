@@ -9,9 +9,11 @@ int main()
     allegro_init();
     set_color_depth(desktop_color_depth());
     if((set_gfx_mode(GFX_AUTODETECT_WINDOWED,1024,768,0,0))!=0)
-      { 	allegro_message("Pb de mode graphique") ;
-    allegro_exit();
-    exit(EXIT_FAILURE); }
+    {
+        allegro_message("Pb de mode graphique") ;
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
     install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL);
 
     //initialisation des bitmaps
@@ -32,95 +34,99 @@ int main()
     show_mouse(screen);
 
     //affichage de l'image
-     fin=0;
+    fin=0;
     int retour=0;
     musique = load_midi("musique.mid");
     if (musique==NULL)
-         printf("Couldn't load background music!");
+        printf("Couldn't load background music!");
 
-    while(!key[KEY_ESC]){
+    while(!key[KEY_ESC])
+    {
 
         play_midi(musique,5);
-        set_volume(100,100);
+        set_volume(200,100);
         rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
         blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
         //textprintf_ex(buffer, font, 200, 300, makecol(0, 255, 0),makecol(0,0,255), "Coordonnées de la souris en ligne : %4d et en colonne :%4d", mouse_x, mouse_y);
 
         blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-    while(fin==0)
-    {
-        //textprintf_ex(buffer, font, 200, 300, makecol(0, 255, 0),makecol(0,0,255), "Coordonnées de la souris en ligne : %4d et en colonne :%4d", mouse_x, mouse_y);
-        blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-        if (mouse_b & 1 && mouse_x>599 && mouse_x<988&& mouse_y>320 && mouse_y<412 &&retour==0 ) //coordonée du rectangle nouvelle partie
-    {
-        //mode communiste/capitaliste
-        printf("nvelle partie\n");
-        clear_bitmap(buffer);
-        blit(nvpart,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
-        blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-
-         printf("souris %4d\n", mouse_b);
-         retour=1;
-
-
-
-
-    }
-    if ( mouse_b&1 && mouse_x>25 && mouse_x<261&& mouse_y>671 && mouse_y<730 &&retour==1 )//coordonée du bouton retour
+        while(fin==0)
         {
-            printf("retour1\n");
-            //retour au menu
-
-            rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
-
-
-
-            blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
+            //textprintf_ex(buffer, font, 200, 300, makecol(0, 255, 0),makecol(0,0,255), "Coordonnées de la souris en ligne : %4d et en colonne :%4d", mouse_x, mouse_y);
             blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-            retour=0;
+            if (mouse_b & 1 && mouse_x>599 && mouse_x<988&& mouse_y>320 && mouse_y<412 &&retour==0 ) //coordonée du rectangle nouvelle partie
+            {
+                //mode communiste/capitaliste
+                printf("nvelle partie\n");
+                clear_bitmap(buffer);
+                blit(nvpart,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
+                blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
+
+                printf("souris %4d\n", mouse_b);
+                retour=1;
+
+
+
+
+            }
+            if ( mouse_b&1 && mouse_x>25 && mouse_x<261&& mouse_y>671 && mouse_y<730 &&retour==1 )//coordonée du bouton retour
+            {
+                printf("retour1\n");
+                //retour au menu
+
+                rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
+
+
+
+                blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
+                blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
+                retour=0;
+
+            }
+            if (mouse_b & 1 && mouse_x>612 && mouse_x<972&& mouse_y>448 && mouse_y<541 )//coordonée du rectangle reprendre partie
+            {
+
+                //lancer la sauvegarde
+                printf("reprendre partie\n");
+                clear_bitmap(buffer);
+                retour=0;
+
+            }
+
+            if (mouse_b & 1 && mouse_x>598 && mouse_x<987&& mouse_y>576 && mouse_y<668)//coordonée du rectangle regles du jeu
+            {
+
+                printf("regles\n");
+                blit(regles,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
+                blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
+                retour=1;
+            }
+            if ( mouse_b & 1 && mouse_x>27 && mouse_x<263&& mouse_y>671 && mouse_y<726 &&retour==1 )//coordonée du bouton retour
+            {
+                printf("retour1\n");
+
+                rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
+
+
+
+                blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
+                blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
+                retour=0;
+
+            }
+
+
 
         }
-     if (mouse_b & 1 && mouse_x>612 && mouse_x<972&& mouse_y>448 && mouse_y<541 )//coordonée du rectangle reprendre partie
-    {
-
-        //lancer la sauvegarde
-        printf("reprendre partie\n");
-        clear_bitmap(buffer);
-        retour=0;
 
     }
-
-     if (mouse_b & 1 && mouse_x>598 && mouse_x<987&& mouse_y>576 && mouse_y<668)//coordonée du rectangle regles du jeu
-    {
-
-        printf("regles\n");
-        blit(regles,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
-        blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-        retour=1;
-    }
-     if ( mouse_b & 1 && mouse_x>27 && mouse_x<263&& mouse_y>671 && mouse_y<726 &&retour==1 )//coordonée du bouton retour
-        {
-            printf("retour1\n");
-
-            rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
-
-
-
-            blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
-            blit(buffer, screen, 0,0,0,0,1024,768);//affiche le buffer sur l'écran
-            retour=0;
-
-        }
-
-
-
-    }
-
-      }
 
 
     play_midi(NULL,FALSE);
     destroy_midi(musique);
     return 0;
-}END_OF_MAIN();
+}
+END_OF_MAIN();
+
+
 
