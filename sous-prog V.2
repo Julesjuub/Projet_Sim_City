@@ -30,9 +30,9 @@ t_case** Creation_Matrice()
         MAP[i] = (t_case*)calloc(MAPTX, sizeof(t_case));
     }
 
-    for(int y = 0; y < MAPTY; y++)
+    for(int y = 0; y < MAPTY ; y++)
     {
-        for(int x = 0; x < MAPTX; x++)
+        for(int x = 0; x < MAPTX ; x++)
         {
             MAP[y][x].coord_x = 0;
             MAP[y][x].coord_y = 0;
@@ -66,15 +66,15 @@ t_case** Creation_Matrice()
             MAP[y][x].ptniv0->pt_habitat->gratte_ciel->coord_x = 0;
             MAP[y][x].ptniv0->pt_habitat->gratte_ciel->coord_y = 0;
 
-            MAP[y][x].ptniv0->pt_habitat->capa_cabane = 0;
-            MAP[y][x].ptniv0->pt_habitat->capa_maison = 0;
-            MAP[y][x].ptniv0->pt_habitat->capa_immeuble = 0;
-            MAP[y][x].ptniv0->pt_habitat->capa_gratte_ciel = 0;
+            MAP[y][x].ptniv0->pt_habitat->capa_cabane = 10;
+            MAP[y][x].ptniv0->pt_habitat->capa_maison = 50;
+            MAP[y][x].ptniv0->pt_habitat->capa_immeuble = 100;
+            MAP[y][x].ptniv0->pt_habitat->capa_gratte_ciel = 1000;
 
 
             /// Initialisation et allocation Struct Bâtiment
             MAP[y][x].ptniv0->pt_bat = (t_batiment*)malloc(sizeof(t_batiment));
-            MAP[y][x].ptniv0->pt_bat->capa_tot = 0;
+            MAP[y][x].ptniv0->pt_bat->capa_tot = 5000;
             MAP[y][x].ptniv0->pt_bat->flot = 0;
             MAP[y][x].ptniv0->pt_bat->marque = 0;
 
@@ -167,7 +167,7 @@ void quadrillage_MAP(t_jeu *Jeu)
         {
             if(Jeu->MAP[y][x].ptniv0->type == 0 || Jeu->MAP[y][x].ptniv0->type == Chatodo2 || Jeu->MAP[y][x].ptniv0->type == Centrale2 || Jeu->MAP[y][x].ptniv0->type == Habitation2)
             {
-                 rect(Jeu->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x + TX, Jeu->MAP[y][x].coord_y + TY, makecol(0, 0, 0));
+                rect(Jeu->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x + TX, Jeu->MAP[y][x].coord_y + TY, makecol(0, 0, 0));
             }
         }
     }
@@ -393,7 +393,15 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
-                        Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type; /// Le type de la case prend le type du sprit posé sur la case
+                        if(Jeu->argent >10)
+                        {
+                            Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type; /// Le type de la case prend le type du sprit posé sur la case
+                            Jeu->argent = Jeu->argent - 10;
+                        }
+                        else
+                        {
+                            printf("pas assez d'argent");
+                        }
                         Jeu->pt_icone->selection = 0;
                         valeur = 1;
                     }
@@ -429,21 +437,30 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
-                        for(n=0; n<3; n++)
+                        if(Jeu->argent > 1000)
                         {
-                            for(m=0; m<3; m++)
+                            for(n=0; n<3; n++)
                             {
-                                if(Jeu->case_select_y + m < MAPTY && Jeu->case_select_x + n < MAPTX)
+                                for(m=0; m<3; m++)
                                 {
-                                    if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
+                                    if(Jeu->case_select_y + m < MAPTY && Jeu->case_select_x + n < MAPTX)
                                     {
-                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Habitation2;
-                                        Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->pt_habitat->type = 1;
+                                        if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
+                                        {
+                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Habitation2;
+                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->pt_habitat->type = 1;
+                                        }
                                     }
                                 }
                             }
+                            Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
+                            Jeu->argent = Jeu->argent - 1000;
                         }
-                        Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
+                        else
+                        {
+                            printf("pas assez d'argent");
+                        }
+
 
                         Jeu->pt_icone->selection = 0;
                         valeur = 1;
@@ -481,27 +498,47 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
-                        for(n=0; n<4; n++)
+                        if(Jeu->argent > 100000)
                         {
-                            for(m=0; m<6; m++)
+                            for(n=0; n<4; n++)
                             {
-                                if(Jeu->case_select_y + m < MAPTY && Jeu->case_select_x + n < MAPTX)
+                                for(m=0; m<6; m++)
                                 {
-                                    if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
+                                    if(Jeu->case_select_y + m < MAPTY && Jeu->case_select_x + n < MAPTX)
                                     {
-                                        if(sprite->type == Chatodo)
+                                        if(Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type == 0)
                                         {
-                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Chatodo2;
-                                        }
-                                        else if(sprite->type == Centrale)
-                                        {
-                                            Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Centrale2;
+                                            if(sprite->type == Chatodo)
+                                            {
+                                                Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Chatodo2;
+                                            }
+                                            else if(sprite->type == Centrale)
+                                            {
+                                                Jeu->MAP[Jeu->case_select_y + m][Jeu->case_select_x + n].ptniv0->type = Centrale2;
+                                            }
                                         }
                                     }
                                 }
                             }
+                            Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
+                            if(sprite->type == Chatodo)
+                            {
+                                Jeu->nbChatodo = Jeu->nbChatodo + 1;
+                                Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->pt_bat->marque = Jeu->nbChatodo;
+                            }
+                            if(sprite->type == Centrale)
+                            {
+                                Jeu->nbCentrale = Jeu->nbCentrale + 1;
+                                Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->pt_bat->marque = Jeu->nbCentrale;
+                            }
+
+                            Jeu->argent = Jeu->argent - 100000;
                         }
-                        Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
+                        else
+                        {
+                            printf("pas assez");
+
+                        }
 
                         Jeu->pt_icone->selection = 0;
                         valeur = 1;
@@ -521,7 +558,6 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
         }
     }
 }
-
 
 
 void recherche_Niveau0(t_jeu *Jeu)
@@ -623,7 +659,7 @@ void sauvegardePartie(t_jeu *Jeu)
 {
     FILE *fichier=NULL;
     int i,j;
-    fichier = fopen("fichierTexte.txt","w");
+    fichier = fopen("fichier.txt","w");
     if (fichier==NULL)
     {
         printf ("erreur d'ouverture de fichier\n");
@@ -679,7 +715,7 @@ void lireGraphe(t_jeu *Jeu)
 {
     FILE *fichier=NULL;
     int i,j;
-    fichier = fopen("fichierTexte.txt","r");
+    fichier = fopen("fichier.txt","r");
     if (fichier==NULL)
     {
         printf ("erreur d'ouverture de fichier\n");
@@ -730,4 +766,3 @@ void lireGraphe(t_jeu *Jeu)
         fclose(fichier);
     }
 }
-
