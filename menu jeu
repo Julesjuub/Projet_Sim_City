@@ -43,7 +43,7 @@ int main()
     while(!key[KEY_ESC])
     {
 
-        play_midi(musique,5);
+        play_midi(musique,10);
         set_volume(200,100);
         rectfill(buffer, 0, 0, 1024, 768, makecol(0,0,0));
         blit(debut,buffer,0,0,0, 0,1024, 768);//affiche l'image sur le buffer
