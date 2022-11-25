@@ -4,7 +4,7 @@
 void ameliorationBat(t_jeu *Jeu)
 {
     clock_t tActuel;
-    int temps, min = 0, sec = 0, capaci;
+    int temps, min = 0, sec = 0, capaci, capaci2;
 
     tActuel = clock ();
 
@@ -19,10 +19,73 @@ void ameliorationBat(t_jeu *Jeu)
                 min = temps/60;
                 sec = temps - 60*min;
                 capaci = chercheCapa(Jeu, y, x);
+                capaci2 = chercheCapa2(Jeu, y, x);
 
                 if(sec%15 == 0 && temps!= 0)
                 {
+                    printf("test");
+
                     if(Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau >= capaci && Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec >= capaci)
+                    {
+                        if(Jeu->MAP[y][x].ptniv0->pt_habitat->type < 5)
+                        {
+                            printf("amelioration batiment");
+                            Jeu->MAP[y][x].ptniv0->pt_habitat->type ++;
+                        }
+                    }
+                    else if(Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau >= capaci2 && Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec >= capaci2)
+                    {
+                        if(Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau < capaci && Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec < capaci)
+                        {
+                            printf("\nbatiment stagne");
+                        }
+                        else
+                        {
+                            if(Jeu->MAP[y][x].ptniv0->pt_habitat->type > 1)
+                            {
+                                printf("regression batiment");
+                                Jeu->MAP[y][x].ptniv0->pt_habitat->type --;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(Jeu->MAP[y][x].ptniv0->pt_habitat->type > 1)
+                        {
+                            printf("regression batiment");
+                            Jeu->MAP[y][x].ptniv0->pt_habitat->type --;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void ameliorationBatcapitaliste(t_jeu *Jeu)
+{
+    clock_t tActuel;
+    int temps, min = 0, sec = 0, capaci, capaci2;
+
+    tActuel = clock ();
+
+    for(int y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(int x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
+            if(Jeu->MAP[y][x].ptniv0->type == Construction_habitation)
+            {
+                temps = (int)(tActuel-Jeu->MAP[y][x].ptniv0->pt_habitat->debut)/CLOCKS_PER_SEC;
+
+                min = temps/60;
+                sec = temps - 60*min;
+                capaci = chercheCapa(Jeu, y, x);
+                capaci2 = chercheCapa2(Jeu, y, x);
+
+                if(sec%15 == 0 && temps!= 0)
+                {
+                    rest(1000);
+                    if(Jeu->MAP[y][x].ptniv0->pt_habitat->type < 5)
                     {
                         printf("amelioration batiment");
                         Jeu->MAP[y][x].ptniv0->pt_habitat->type ++;
@@ -38,7 +101,34 @@ int  chercheCapa(t_jeu *Jeu, int coordY, int coordX)
     int capa;
     if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 1)
     {
-        capa = 1;
+        capa = 10;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 2)
+    {
+        capa = 50;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 3)
+    {
+        capa = 100;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 4)
+    {
+        capa = 1000;
+    }
+    else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 5)
+    {
+        capa = 1000;
+    }
+    return capa;
+
+}
+
+int  chercheCapa2(t_jeu *Jeu, int coordY, int coordX)
+{
+    int capa;
+    if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 1)
+    {
+        capa = 0;
     }
     else if(Jeu->MAP[coordY][coordX].ptniv0->pt_habitat->type == 2)
     {
@@ -60,6 +150,7 @@ int  chercheCapa(t_jeu *Jeu, int coordY, int coordX)
 
 }
 
+
 void changerBfs(t_jeu *Jeu, int coordY, int coordX, int capaci, int y, int x, int type)
 {
     printf("\nchanger bfs");
@@ -70,14 +161,14 @@ void changerBfs(t_jeu *Jeu, int coordY, int coordX, int capaci, int y, int x, in
             Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
             Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau = capaci;
             Jeu->MAP[y][x].ptniv0->pt_habitat->origineEau = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
+            printf("\n            %d\n", Jeu->MAP[y][x].ptniv0->pt_habitat->flotEau);
         }
         else if(type == Centrale)
         {
-            printf("\n mmmmmmmmmmmmmm");
             Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->flot + capaci;
             Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec = capaci;
             Jeu->MAP[y][x].ptniv0->pt_habitat->origineElec = Jeu->MAP[coordY][coordX].ptniv0->pt_bat->marque;
-            printf("\n %d", Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec);
+            printf("\n            %d\n", Jeu->MAP[y][x].ptniv0->pt_habitat->flotElec);
 
         }
     }
