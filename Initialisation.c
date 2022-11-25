@@ -2,7 +2,7 @@
 
 void initialisationAllegro()
 {
-
+    /// 255, 216, 185
     int largeurBureau = 0, hauteurBureau = 0;
     allegro_init();
     install_keyboard();
@@ -163,14 +163,14 @@ void quadrillage_MAP(t_jeu *Jeu)
     {
         for(int x = 0; x < MAPTX; x++)  /// jusqu'a 51
         {
-            blit(Jeu->sol, Jeu->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
+            blit(Jeu->utile->sol, Jeu->utile->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
         }
     }
     for(int x = 0; x < MAPTX; x++) /// jusqu'a 38
     {
         for(int y = 0; y < MAPTY; y++)  /// jusqu'a 51
         {
-            blit(Jeu->sol, Jeu->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
+            blit(Jeu->utile->sol, Jeu->utile->buffer, 0, 0, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, TX, TY);
         }
     }
 
@@ -179,81 +179,86 @@ void quadrillage_MAP(t_jeu *Jeu)
     {
         for(int x = 0; x < MAPTX; x++)  /// jusqu'a 51
         {
-            rect(Jeu->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x+TX, Jeu->MAP[y][x].coord_y+TY, makecol(0, 0, 0));
+            rect(Jeu->utile->buffer, Jeu->MAP[y][x].coord_x, Jeu->MAP[y][x].coord_y, Jeu->MAP[y][x].coord_x+TX, Jeu->MAP[y][x].coord_y+TY, makecol(0, 0, 0));
             //circlefill(buffer, MAP[y][x].coord_x,MAP[y][x].coord_y, 2, makecol(255, 0, 0));
 
         }
     }
 
-
     //printf("\n Quadrillage okk \n");
-
 }
 
 void affichage_icones(t_jeu *Jeu)
 {
     /// On affiche les icônes
+    draw_sprite(Jeu->utile->buffer, Jeu->utile->cadre, WIDTH, -8);
+    draw_sprite(Jeu->utile->buffer, Jeu->utile->banderole, 910, 24);
+    draw_sprite(Jeu->utile->buffer, Jeu->utile->cadre_info, 5, 710);
 
-    draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_sol_vague->icone,Jeu->pt_icone->icone_sol_vague->coord_x,Jeu->pt_icone->icone_sol_vague->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 70, makecol(250,200,250), -1,"Coût : 10",NULL);
-
-    draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_route->icone,Jeu->pt_icone->icone_route->coord_x,Jeu->pt_icone->icone_route->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 200, makecol(250,200,250), -1,"Coût : ?",NULL);
-
-    /*draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_canalisation->icone,Jeu->pt_icone->icone_canalisation->coord_x,Jeu->pt_icone->icone_canalisation->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 330, makecol(250,200,250), -1,"Coût : ?",NULL);
-
-    draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_elec->icone,Jeu->pt_icone->icone_elec->coord_x,Jeu->pt_icone->icone_elec->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 460, makecol(250,200,250), -1,"Coût : ?",NULL);*/
+    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->cabane->icone_mini, Jeu->MAP[15][15].coord_x, Jeu->MAP[15][15].coord_y);
+    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->maison->icone_mini, Jeu->MAP[20][20].coord_x, Jeu->MAP[20][20].coord_y);
+    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->immeuble->icone_mini, Jeu->MAP[15][15].coord_x, Jeu->MAP[20][20].coord_y);
+    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->gratte_ciel->icone_mini, Jeu->MAP[15][15].coord_x, Jeu->MAP[25][25].coord_y);
+    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->sol_vague->icone_mini, Jeu->MAP[11][11].coord_x, Jeu->MAP[11][11].coord_y);
 
 
-    draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_chatodo->icone,Jeu->pt_icone->icone_chatodo->coord_x,Jeu->pt_icone->icone_chatodo->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 350, makecol(250,200,250), -1,"Coût : ?",NULL);
 
-    draw_sprite(Jeu->buffer,Jeu->pt_icone->icone_centrale->icone,Jeu->pt_icone->icone_centrale->coord_x,Jeu->pt_icone->icone_centrale->coord_y);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W -110, 480, makecol(250,200,250), -1,"Coût : ?",NULL);
+
+
+
+    draw_sprite(Jeu->utile->buffer,Jeu->pt_icone->icone_sol_vague->icone,Jeu->pt_icone->icone_sol_vague->coord_x+20,Jeu->pt_icone->icone_sol_vague->coord_y);
+    //textprintf_ex(Jeu->utile->buffer, font, SCREEN_W -110, 70+120, makecol(20,20,20), -1,"Coût : 10",NULL);
+
+    draw_sprite(Jeu->utile->buffer,Jeu->pt_icone->icone_route->icone,Jeu->pt_icone->icone_route->coord_x+20,Jeu->pt_icone->icone_route->coord_y+120);
+    //textprintf_ex(Jeu->utile->buffer, font, SCREEN_W -110, 200+120, makecol(20,20,20), -1,"Coût : ?",NULL);
+
+    draw_sprite(Jeu->utile->buffer,Jeu->pt_icone->icone_chatodo->icone,Jeu->pt_icone->icone_chatodo->coord_x+20,Jeu->pt_icone->icone_chatodo->coord_y+120);
+    //textprintf_ex(Jeu->utile->buffer, font, SCREEN_W -110, 350+120, makecol(20,20,20), -1,"Coût : ?",NULL);
+
+    draw_sprite(Jeu->utile->buffer,Jeu->pt_icone->icone_centrale->icone,Jeu->pt_icone->icone_centrale->coord_x+20,Jeu->pt_icone->icone_centrale->coord_y+120);
+    //textprintf_ex(Jeu->utile->buffer, font, SCREEN_W -110, 480+120, makecol(20,20,20), -1,"Coût : ?",NULL);
 }
 
 void initialisation_struct_Jeu(t_jeu *Jeu)
 {
+    Jeu->utile = (t_utile*)malloc(sizeof(t_utile));
+    
     Jeu->pt_icone = (t_icone*)malloc(sizeof(t_icone));
     Jeu->pt_icone->selection = 0;
     //allegro_message("rentre dans init");
 
     Jeu->pt_icone->icone_sol_vague = (t_sprite*)malloc(sizeof(t_sprite));
     //allegro_message("allocation ok");
-    Jeu->pt_icone->icone_sol_vague->coord_x = SCREEN_W - 110;
-    Jeu->pt_icone->icone_sol_vague->end_x = 965;
-    Jeu->pt_icone->icone_sol_vague->coord_y = 10;
-    Jeu->pt_icone->icone_sol_vague->end_y = 60;
+    Jeu->pt_icone->icone_sol_vague->coord_x = SCREEN_W - 117;
+    Jeu->pt_icone->icone_sol_vague->end_x = 997;
+    Jeu->pt_icone->icone_sol_vague->coord_y = 110;
+    Jeu->pt_icone->icone_sol_vague->end_y = 150;
     Jeu->pt_icone->icone_sol_vague->type = Construction_habitation;
     //allegro_message("init sol vague okk");
 
     Jeu->pt_icone->icone_route = (t_sprite*)malloc(sizeof(t_sprite));
-    Jeu->pt_icone->icone_route->coord_x = SCREEN_W - 110;
+    Jeu->pt_icone->icone_route->coord_x = SCREEN_W - 115;
     Jeu->pt_icone->icone_route->end_x = 965;
     Jeu->pt_icone->icone_route->coord_y = 110;
     Jeu->pt_icone->icone_route->end_y = 190;
     Jeu->pt_icone->icone_route->type = Route;
     //allegro_message("init route okk");
 
-
     Jeu->pt_icone->icone_chatodo = (t_sprite*)malloc(sizeof(t_sprite));
-    Jeu->pt_icone->icone_chatodo->coord_x = SCREEN_W - 110;
-    Jeu->pt_icone->icone_chatodo->end_x = 965;
-    Jeu->pt_icone->icone_chatodo->coord_y = 250;
-    Jeu->pt_icone->icone_chatodo->end_y = 345;
+    Jeu->pt_icone->icone_chatodo->coord_x = SCREEN_W - 130;
+    Jeu->pt_icone->icone_chatodo->end_x = 945;
+    Jeu->pt_icone->icone_chatodo->coord_y = 235;
+    Jeu->pt_icone->icone_chatodo->end_y = 330;
     Jeu->pt_icone->icone_chatodo->type = Chatodo;
     //allegro_message("init chatodo okk");
 
     Jeu->pt_icone->icone_centrale = (t_sprite*)malloc(sizeof(t_sprite));
-    Jeu->pt_icone->icone_centrale->coord_x = SCREEN_W - 110;
+    Jeu->pt_icone->icone_centrale->coord_x = SCREEN_W - 130;
     Jeu->pt_icone->icone_centrale->end_x = 965;
     Jeu->pt_icone->icone_centrale->coord_y = 390;
     Jeu->pt_icone->icone_centrale->end_y = 466;
     Jeu->pt_icone->icone_centrale->type = Centrale;
     allegro_message("init centrale okk");
-
 
 
 
@@ -272,10 +277,19 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->ptniv0->pt_habitat->maison = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
     Jeu->ptniv0->pt_habitat->immeuble = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
     Jeu->ptniv0->pt_habitat->gratte_ciel = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
-    Jeu->ptniv0->pt_habitat->sol_vague->icone_mini = load_bitmap("Bitmap/mini/terrain_vague_unite.bmp", NULL);
+    Jeu->ptniv0->pt_habitat->sol_vague->icone_mini = load_bitmap("Bitmap/mini/sol_vague_mini.bmp", NULL);
     Jeu->ptniv0->pt_habitat->cabane->icone_mini =  load_bitmap("Bitmap/mini/hut_mini.bmp", NULL);
-    Jeu->ptniv0->pt_habitat->maison->icone_mini = load_bitmap("Bitmap/mini/house_red_mini.bmp", NULL);
-    Jeu->ptniv0->pt_habitat->immeuble->icone_mini = load_bitmap("Bitmap/mini/office_building_mini.bmp", NULL);
+    Jeu->ptniv0->pt_habitat->maison->icone_mini = load_bitmap("Bitmap/mini/house_mini_V2.bmp", NULL);
+    Jeu->ptniv0->pt_habitat->immeuble->icone_mini = load_bitmap("Bitmap/mini/immeuble_mini.bmp", NULL);
+    Jeu->ptniv0->pt_habitat->gratte_ciel->icone_mini = load_bitmap("Bitmap/mini/skycraper_mini.bmp", NULL);
+
+    if(Jeu->ptniv0->pt_habitat->cabane->icone_mini == NULL )
+    {
+        allegro_message("Pas reussi a charger habtitation ");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+
 
     Jeu->ptniv0->route_mini->icone_mini =  load_bitmap("Bitmap/mini/route_mini.bmp", NULL);
 
@@ -289,41 +303,48 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->ptniv2->origine = (t_batiment*)malloc(sizeof(t_batiment));
     Jeu->ptniv2->elec_mini = (t_sprite_mini*)malloc(sizeof(t_sprite_mini));
 
-    Jeu->buffer = create_bitmap(SCREEN_W,SCREEN_H);
-    Jeu->sol = load_bitmap("Bitmap/sol.bmp", NULL); /// On charge le sol du jeu
+    Jeu->utile->buffer = create_bitmap(SCREEN_W,SCREEN_H);
+    Jeu->utile->sol = load_bitmap("Bitmap/Autres/sol.bmp", NULL); /// On charge le sol du jeu
+    Jeu->utile->banderole = load_bitmap("Bitmap/Autres/banderole.bmp", NULL);
+    Jeu->utile->cadre = load_bitmap("Bitmap/cadre.bmp", NULL);
+    Jeu->utile->fond = load_bitmap("Bitmap/fond2.bmp", NULL);
+    Jeu->utile->cadre_info = load_bitmap("Bitmap/icones/rectangle.bmp", NULL);
 
+    Jeu->pt_icone->icone_sol_vague->icone = load_bitmap("Bitmap/icones/habitation_V2.bmp", NULL);
+    Jeu->pt_icone->icone_route->icone =  load_bitmap("Bitmap/icones/road_V2.bmp", NULL);
+    Jeu->pt_icone->icone_chatodo->icone = load_bitmap("Bitmap/icones/chatodeau.bmp", NULL);
+    Jeu->pt_icone->icone_centrale->icone = load_bitmap("Bitmap/icones/centraleee.bmp", NULL);
 
+    allegro_message("agisi");
 
-    Jeu->pt_icone->icone_sol_vague->icone = load_bitmap("Bitmap/icones/terrain_vague_unite_icone.bmp", NULL);
-    Jeu->pt_icone->icone_route->icone =  load_bitmap("Bitmap/icones/route_icone.bmp", NULL);
-    //Jeu->pt_icone->icone_canalisation->icone = load_bitmap("Bitmap/icones/water_pipe_icone.bmp", NULL);
-    //Jeu->pt_icone->icone_elec->icone = load_bitmap("Bitmap/icones/electric_cable_icone.bmp", NULL);
-    Jeu->pt_icone->icone_chatodo->icone = load_bitmap("Bitmap/icones/chatodo_icone.bmp", NULL);
-    Jeu->pt_icone->icone_centrale->icone = load_bitmap("Bitmap/icones/centrale_elec_icone.bmp", NULL);
+    if(Jeu->utile->sol == NULL || Jeu->utile->cadre == NULL)
+    {
+        allegro_message("Pas reussi a charger utile ");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
 
-
-
-    if(Jeu->ptniv0->pt_habitat->sol_vague == NULL || Jeu->pt_icone->icone_sol_vague == NULL || Jeu->sol == NULL)
+    if(Jeu->pt_icone->icone_sol_vague->icone == NULL)
     {
     allegro_message("Pas reussi a charger sol_vague ");
     allegro_exit();
     exit(EXIT_FAILURE);
     }
-    if(Jeu->ptniv0->pt_habitat->cabane == NULL )
+    if(Jeu->ptniv0->pt_habitat->cabane == NULL ||  Jeu->pt_icone->icone_chatodo->icone == NULL)
     {
     allegro_message("Pas reussi a charger cabane ");
     allegro_exit();
     exit(EXIT_FAILURE);
     }
-    if(Jeu->pt_icone->icone_route== NULL )
+    if(Jeu->pt_icone->icone_route->icone == NULL )
     {
-    allegro_message("Pas reussi a charger maison ");
+    allegro_message("Pas reussi a charger route ");
     allegro_exit();
     exit(EXIT_FAILURE);
     }
-    if(Jeu->ptniv0->pt_habitat->immeuble == NULL )
+    if(Jeu->pt_icone->icone_centrale->icone == NULL )
     {
-    allegro_message("Pas reussi a charger immeuble ");
+    allegro_message("Pas reussi a charger centrale ");
     allegro_exit();
     exit(EXIT_FAILURE);
     }
@@ -341,30 +362,30 @@ void selection_icone(t_jeu *Jeu) /// En fonction de la où on clique, le sous pr
 {
     if((mouse_b&1) && ((mouse_x >= Jeu->pt_icone->icone_sol_vague->coord_x) && (mouse_x <= Jeu->pt_icone->icone_sol_vague->end_x )) && ((mouse_y >= Jeu->pt_icone->icone_sol_vague->coord_y) && (mouse_y <= Jeu->pt_icone->icone_sol_vague->end_y)))
     {
-        textprintf_ex(Jeu->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'sol vague' ",NULL);
-        blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        textprintf_ex(Jeu->utile->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'sol vague' ",NULL);
+        blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         sub_placement_icone(Jeu, Jeu->pt_icone->icone_sol_vague, Jeu->ptniv0->pt_habitat->sol_vague);
 
     }
 
     if((mouse_b&1) && ((mouse_x >= Jeu->pt_icone->icone_route->coord_x) && (mouse_x <= Jeu->pt_icone->icone_route->end_x )) && ((mouse_y >= Jeu->pt_icone->icone_route->coord_y) && (mouse_y <= Jeu->pt_icone->icone_route->end_y)))
     {
-        textprintf_ex(Jeu->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'route' ",NULL);
-        blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        textprintf_ex(Jeu->utile->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'route' ",NULL);
+        blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         sub_placement_icone(Jeu, Jeu->pt_icone->icone_route, Jeu->ptniv0->route_mini);
     }
 
     if((mouse_b&1) && ((mouse_x >= Jeu->pt_icone->icone_chatodo->coord_x) && (mouse_x <= Jeu->pt_icone->icone_chatodo->end_x )) && ((mouse_y >= Jeu->pt_icone->icone_chatodo->coord_y) && (mouse_y <= Jeu->pt_icone->icone_chatodo->end_y)))
     {
-        textprintf_ex(Jeu->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'chateau d'eau' ",NULL);
-        blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        textprintf_ex(Jeu->utile->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'chateau d'eau' ",NULL);
+        blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         sub_placement_icone(Jeu, Jeu->pt_icone->icone_chatodo, Jeu->ptniv0->pt_bat->chato);
     }
 
     if((mouse_b&1) && ((mouse_x >= Jeu->pt_icone->icone_centrale->coord_x) && (mouse_x <= Jeu->pt_icone->icone_centrale->end_x )) && ((mouse_y >= Jeu->pt_icone->icone_centrale->coord_y) && (mouse_y <= Jeu->pt_icone->icone_centrale->end_y)))
     {
-        textprintf_ex(Jeu->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'centrale électrique' ",NULL);
-        blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        textprintf_ex(Jeu->utile->buffer, font, 20, HEIGHT+20, makecol(250,0,250), -1,"Vous avez seléctionné l'élément 'centrale électrique' ",NULL);
+        blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         sub_placement_icone(Jeu, Jeu->pt_icone->icone_centrale, Jeu->ptniv0->pt_bat->centrale);
     }
 }
@@ -403,8 +424,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
             {
                 if(Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type == 0)
                 {
-                    rect(Jeu->buffer, x, y, x + TX, y + TY, makecol(0, 250, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX, y + TY, makecol(0, 250, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
@@ -415,8 +436,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                 }
                 else
                 {
-                    rect(Jeu->buffer, x, y, x + TX, y + TY, makecol(250, 0, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX, y + TY, makecol(250, 0, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 }
             }
 
@@ -439,8 +460,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                 if(valeurHabi == 3*3)
                 {
 
-                    rect(Jeu->buffer, x, y, x + TX*3, y + TY*3, makecol(0, 250, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX*3, y + TY*3, makecol(0, 250, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
@@ -464,8 +485,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                 }
                 else
                 {
-                    rect(Jeu->buffer, x, y, x + TX*3, y + TY*3, makecol(250, 0, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX*3, y + TY*3, makecol(250, 0, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 }
 
             }
@@ -489,8 +510,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                 if(valeurBat == 4*6)
                 {
 
-                    rect(Jeu->buffer, x, y, x + TX*4, y + TY*6, makecol(0, 250, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX*4, y + TY*6, makecol(0, 250, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
                     if(mouse_b&1) /// Si le joueur clique sur une case qui est libre
                     {
@@ -514,14 +535,14 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                 }
                 else
                 {
-                    rect(Jeu->buffer, x, y, x + TX*4, y + TY*6, makecol(250, 0, 0) );
-                    blit(Jeu->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                    rect(Jeu->utile->buffer, x, y, x + TX*4, y + TY*6, makecol(250, 0, 0) );
+                    blit(Jeu->utile->buffer,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 }
 
             }
 
 
-            clear_bitmap(Jeu->buffer);
+            clear_bitmap(Jeu->utile->buffer);
             quadrillage_MAP(Jeu);
             cycle_temps_sauvegarde(Jeu);
             affichage_icones(Jeu);
@@ -540,51 +561,51 @@ void recherche_Niveau0(t_jeu *Jeu)
         {
             if(Jeu->MAP[y][x].ptniv0->type == Route)
             {
-                draw_sprite(Jeu->buffer, Jeu->ptniv0->route_mini->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->route_mini->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
             }
 
             if(Jeu->MAP[y][x].ptniv0->type == Construction_habitation)
             {
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 1)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->sol_vague->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->sol_vague->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 2)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->cabane->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->cabane->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 3)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->maison->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->maison->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 4)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->immeuble->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->immeuble->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
                 if(Jeu->MAP[y][x].ptniv0->pt_habitat->type == 5)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_habitat->gratte_ciel->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_habitat->gratte_ciel->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
             }
 
             if(Jeu->MAP[y][x].ptniv0->type == Chatodo)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->chato->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_bat->chato->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
             if(Jeu->MAP[y][x].ptniv0->type == Centrale)
                 {
-                    draw_sprite(Jeu->buffer, Jeu->ptniv0->pt_bat->centrale->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                    draw_sprite(Jeu->utile->buffer, Jeu->ptniv0->pt_bat->centrale->icone_mini,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
                 }
 
 
             if(Jeu->MAP[y][x].ptniv0->type == Rien)
             {
-                draw_sprite(Jeu->buffer, Jeu->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
+                draw_sprite(Jeu->utile->buffer, Jeu->utile->sol,Jeu->MAP[y][x].coord_x,Jeu->MAP[y][x].coord_y);
             }
         }
     }
@@ -610,8 +631,8 @@ void cycle_temps_sauvegarde(t_jeu *Jeu)
     }
 
     rest(10);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W - 380, SCREEN_H - 50, makecol(250, 0, 250), -1, "Minutes :%d", min);
-    textprintf_ex(Jeu->buffer, font, SCREEN_W - 380, SCREEN_H - 40, makecol(250, 0, 250), -1, "Secondes :%d", sec);
+    textprintf_ex(Jeu->utile->buffer, font, 380, SCREEN_H - 50, makecol(250, 0, 250), -1, "Minutes :%d", min);
+    textprintf_ex(Jeu->utile->buffer, font, 380, SCREEN_H - 40, makecol(250, 0, 250), -1, "Secondes :%d", sec);
 
 }
 

@@ -12,8 +12,9 @@
 
 #define Route 1100 /// 1 case
 #define Construction_habitation 1101 /// 3x3 cases
-#define Batiment 1102 /// 4x6 cases
-#define Rien 1103
+#define Chatodo 1102 /// 4x6 cases
+#define Centrale 1103
+#define Rien 1104
 
 /// 1024 x 768
 #define WIDTH 900 /// taille de la MAP en pixels en largeur
@@ -55,7 +56,7 @@ typedef struct icone
 
 typedef struct batiment
 {
-    int type; /// Quel type de bâtiment est-ce
+    //int type; /// Quel type de bâtiment est-ce
 
     t_sprite_mini *chato; /// (Centrales et châteaux)
     t_sprite_mini *centrale;
@@ -133,11 +134,21 @@ typedef struct Case
 
 }t_case;
 
+typedef struct Utiles
+{
+    BITMAP *buffer;
+    BITMAP *sol;
+    BITMAP *banderole;
+    BITMAP *cadre;
+    BITMAP *fond;
+    BITMAP *cadre_info;
+
+}t_utile;
+
 typedef struct Jeu
 {
     t_case **MAP;
-    BITMAP *buffer;
-    BITMAP *sol;
+    t_utile *utile;
 
     t_niv0 *ptniv0;
     t_niv1 *ptniv1;
@@ -153,6 +164,7 @@ typedef struct Jeu
 
     int case_select_x;
     int case_select_y;
+    clock_t debut;
 
 }t_jeu;
 
@@ -165,7 +177,7 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
 void selection_icone(t_jeu *Jeu);
 void sauvegardePartie(t_jeu *Jeu);
 void lireGraphe(t_jeu *Jeu);
-void cycle_temps_sauvegarde(t_jeu *Jeu, clock_t tDebut);
+void cycle_temps_sauvegarde(t_jeu *Jeu);
 
 void recherche_Niveau0(t_jeu *Jeu);
 
