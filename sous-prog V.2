@@ -356,6 +356,7 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
 {
     int valeur = 0;
     int x, y, n, m, valeurHabi, valeurBat;
+    clock_t tDebut;
 
     /**
             -> Sélectionner l'icône de son choix
@@ -455,6 +456,8 @@ void sub_placement_icone(t_jeu *Jeu, t_sprite *sprite, t_sprite_mini *sprite_min
                             }
                             Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->type = sprite->type;
                             Jeu->argent = Jeu->argent - 1000;
+                            tDebut = clock ();
+                            Jeu->MAP[Jeu->case_select_y][Jeu->case_select_x].ptniv0->pt_habitat->debut = tDebut;
                         }
                         else
                         {
@@ -646,6 +649,8 @@ void cycle_temps_sauvegarde(t_jeu *Jeu)
     {
         rest(1000);
         Jeu->nbSecondes = Jeu->nbSecondes + 15;
+        printf("lancer bfs");
+        progbfs(Jeu);
         sauvegardePartie(Jeu);
         lireGraphe(Jeu);
     }
