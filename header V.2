@@ -27,6 +27,8 @@
 #define MAPTY 35
 
 #define MAXI 1600
+#define COMMU 500
+#define CAPITA 600
 
 typedef struct sprite_mini
 {
@@ -167,9 +169,12 @@ typedef struct Jeu
     int case_select_x;
     int case_select_y;
 
+    int commuCapi;
+
 }t_jeu;
 
 int chercheCapa(t_jeu *Jeu, int coordY, int coordX);
+int  chercheCapa2(t_jeu *Jeu, int coordY, int coordX);
 void changerBfs(t_jeu *Jeu, int coordY, int coordX, int capaci, int y, int x, int type);
 void bfs(t_jeu *Jeu, int s0, int** adj, int type, int coordY, int coordX);
 void progbfs(t_jeu *Jeu);
