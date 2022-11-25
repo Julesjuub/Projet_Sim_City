@@ -262,6 +262,7 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->ptniv0->pt_habitat->cabane->icone_mini =  load_bitmap("Bitmap/mini/hut_mini.bmp", NULL);
     Jeu->ptniv0->pt_habitat->maison->icone_mini = load_bitmap("Bitmap/mini/house_red_mini.bmp", NULL);
     Jeu->ptniv0->pt_habitat->immeuble->icone_mini = load_bitmap("Bitmap/mini/office_building_mini.bmp", NULL);
+    Jeu->ptniv0->pt_habitat->gratte_ciel->icone_mini = load_bitmap("Bitmap/mini/office_building_mini.bmp", NULL);
 
     Jeu->ptniv0->route_mini->icone_mini =  load_bitmap("Bitmap/mini/route_mini.bmp", NULL);
 
@@ -316,6 +317,7 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->argent = 500000;
     Jeu->nbChatodo = 0;
     Jeu->nbCentrale = 0;
+    Jeu->commuCapi = COMMU;
 
 
 }
@@ -634,6 +636,24 @@ void recherche_Niveau0(t_jeu *Jeu)
     }
 }
 
+void gagnerArgent(t_jeu *Jeu)
+{
+    int capacite, total = 0;
+    for(int y = 0; y < MAPTY; y++) /// jusqu'a 35
+    {
+        for(int x = 0; x < MAPTX; x++)  /// jusqu'a 45
+        {
+            if(Jeu->MAP[y][x].ptniv0->type == Construction_habitation)
+            {
+                capacite = chercheCapa2(Jeu, y, x);
+                total = total + capacite*10;
+            }
+        }
+    }
+    printf("Vous avez gagnez %d", total);
+    Jeu->argent = Jeu->argent + total;
+}
+
 void cycle_temps_sauvegarde(t_jeu *Jeu)
 {
     clock_t tActuel;
@@ -649,7 +669,7 @@ void cycle_temps_sauvegarde(t_jeu *Jeu)
     {
         rest(1000);
         Jeu->nbSecondes = Jeu->nbSecondes + 15;
-        printf("lancer bfs");
+        gagnerArgent(Jeu);
         progbfs(Jeu);
         sauvegardePartie(Jeu);
         lireGraphe(Jeu);
