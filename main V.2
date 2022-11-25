@@ -26,7 +26,16 @@ int main()
         cycle_temps_sauvegarde(Jeu);
         selection_icone(Jeu);
         recherche_Niveau0(Jeu);
-        ameliorationBat(Jeu);
+
+
+        if(Jeu->commuCapi == COMMU)
+        {
+          ameliorationBat(Jeu);
+        }
+        else if(Jeu->commuCapi == CAPITA)
+        {
+            ameliorationBatcapitaliste(Jeu);
+        }
 
 
 
