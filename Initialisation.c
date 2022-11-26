@@ -631,8 +631,8 @@ void cycle_temps_sauvegarde(t_jeu *Jeu)
     }
 
     rest(10);
-    textprintf_ex(Jeu->utile->buffer, font, 380, SCREEN_H - 50, makecol(250, 0, 250), -1, "Minutes :%d", min);
-    textprintf_ex(Jeu->utile->buffer, font, 380, SCREEN_H - 40, makecol(250, 0, 250), -1, "Secondes :%d", sec);
+    textprintf_ex(Jeu->utile->buffer, font, 687, 728, makecol(0, 0, 0), -1, "%d", min);
+    textprintf_ex(Jeu->utile->buffer, font, 735, 728, makecol(0, 0, 0), -1, "%d", sec);
 
 }
 
