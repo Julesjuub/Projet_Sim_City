@@ -305,7 +305,7 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
 
     Jeu->utile->buffer = create_bitmap(SCREEN_W,SCREEN_H);
     Jeu->utile->sol = load_bitmap("Bitmap/Autres/sol.bmp", NULL); /// On charge le sol du jeu
-    Jeu->utile->banderole = load_bitmap("Bitmap/Autres/banderole.bmp", NULL);
+    Jeu->utile->banderole = load_bitmap("Bitmap/Autres/toolbox.bmp", NULL);
     Jeu->utile->cadre = load_bitmap("Bitmap/cadre.bmp", NULL);
     Jeu->utile->fond = load_bitmap("Bitmap/fond2.bmp", NULL);
     Jeu->utile->cadre_info = load_bitmap("Bitmap/reserves.bmp", NULL);
