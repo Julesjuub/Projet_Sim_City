@@ -308,7 +308,7 @@ void initialisation_struct_Jeu(t_jeu *Jeu)
     Jeu->utile->banderole = load_bitmap("Bitmap/Autres/banderole.bmp", NULL);
     Jeu->utile->cadre = load_bitmap("Bitmap/cadre.bmp", NULL);
     Jeu->utile->fond = load_bitmap("Bitmap/fond2.bmp", NULL);
-    Jeu->utile->cadre_info = load_bitmap("Bitmap/icones/rectangle.bmp", NULL);
+    Jeu->utile->cadre_info = load_bitmap("Bitmap/reserves.bmp", NULL);
 
     Jeu->pt_icone->icone_sol_vague->icone = load_bitmap("Bitmap/icones/habitation_V2.bmp", NULL);
     Jeu->pt_icone->icone_route->icone =  load_bitmap("Bitmap/icones/road_V2.bmp", NULL);
